@@ -5,6 +5,12 @@ import random
 import platform
 
 def print_help(args: list) -> None:
+	"""
+	It prints the usage of the program and exits if the number of arguments is not 4 or if the first argument is --help
+	
+	:param args: the arguments passed to the program
+	:type args: list
+	"""
 	print("usage:\tpython3 rand.py [--option] [nbr_of_tests] [stack_len]");
 	if (len(args) != 4):
 		exit(1);
@@ -15,6 +21,13 @@ def print_help(args: list) -> None:
 		exit(1);
 
 def generator(i: int) -> str:
+	"""
+	It takes an integer and returns a string of random numbers separated by spaces
+	
+	:param i: the number of elements in the list
+	:type i: int
+	:return: A string of numbers separated by spaces.
+	"""
 	ret = ""
 	lst = random.sample(range(0,i),i)
 	for j in lst:
@@ -22,12 +35,28 @@ def generator(i: int) -> str:
 	return ret.rstrip(' ');
 
 def get_os() -> str:
+	"""
+	It returns the path to the checker executable, depending on the operating system
+	:return: The path to the checker program.
+	"""
 	os_name = platform.system().lower();
 	if (os_name == "linux"):
 		return ("./checker_linux")
 	return "./checker_Mac"
 
 def command_runner(args: str, os_name: str, option: str, script_name: str):
+	"""
+	It runs the command line arguments
+	
+	:param args: The arguments to be passed to the push_swap program
+	:type args: str
+	:param os_name: The name of the executable file
+	:type os_name: str
+	:param option: The option you want to use
+	:type option: str
+	:param script_name: The name of the script
+	:type script_name: str
+	"""
 	if (option == "--generate"):
 		print(args);
 	elif (option == "--print"):
@@ -42,6 +71,13 @@ def command_runner(args: str, os_name: str, option: str, script_name: str):
 		exit(1);
 
 def parse(args: list) -> tuple:
+	"""
+	It checks if the arguments are valid
+	
+	:param args: list of arguments passed to the program
+	:type args: list
+	:return: A tuple containing the option, the number of queens and the size of the board.
+	"""
 	available_options = ["--generate", "--print", "--test", "--mouvements"];
 
 	if (len(args) != 4):
