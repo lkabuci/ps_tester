@@ -1,3 +1,4 @@
+from colorama import init, Fore, Style
 import re
 import subprocess
 from typing import List, Tuple
@@ -23,8 +24,29 @@ def get_executable_output(args: str) -> Tuple[str, str]:
     stdout, stderr = process.communicate()
     return (stdout.decode().strip(), stderr.decode().strip())
 
+
+
+
 class TestGetExecutableOutput(unittest.TestCase):
-    
+    def ft_test(
+            self,
+            test_case: str,
+            actual: Tuple[str, str],
+            expected: Tuple[str, str],
+            ) -> None:
+        tests = [
+            ["stdout", expected[0], actual[0]],
+            ["stderr", expected[1], actual[1]],
+        ]
+        for test in tests:
+            try:
+                self.assertEqual(test[1], test[2])
+            except AssertionError:
+                print(Fore.RED + f"KO" + Style.RESET_ALL, end = "\t")
+                print(f"case: \"{test_case}\", expected in {test[0]} \"{test[1]}\", found \"{test[2]}\"")
+            else:
+                print(Fore.GREEN + "OK" + Style.RESET_ALL)
+
     def test_doing_nothing(self):
         args = [
             "0 1 2 3 4 5",
@@ -36,10 +58,9 @@ class TestGetExecutableOutput(unittest.TestCase):
             "2147483647",
             "-2147483648",
         ]
+        expected = ("", "")
         for case in args:
-            stdout, stderr = get_executable_output(case)
-            self.assertEqual(stdout, "")
-            self.assertEqual(stderr, "")
+            self.ft_test(case, get_executable_output(case), expected)
 
     def test_error_cases(self):
         args = [
@@ -57,11 +78,14 @@ class TestGetExecutableOutput(unittest.TestCase):
             "0-1",
         ]
         for case in args:
-            stdout, stderr = get_executable_output(case)
-            self.assertEqual(stdout, "")
-            self.assertEqual(stderr, "Error")
+            expected = ("", "Error")
+            for case in args:
+                self.ft_test(case, get_executable_output(case), expected)
 
 
+if __name__ == "__main__":
+    init()
+    unittest.main()
 
 """
 TODO:

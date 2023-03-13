@@ -10,9 +10,6 @@ class Stack:
     def _increment_mouvements(self):
         self.nbrof_mouvements += 1
 
-    def mvmnts(self):
-        return self.nbrof_mouvements
-
     def _get_args(self, args: str) -> list:
         ret = list()
         for nbr in args.split():
@@ -102,4 +99,7 @@ class Stack:
         tail_b = self.stack_b.pop(Stack._LAST)
         self.stack_b.insert(Stack._FIRST, tail_b)
         self._increment_mouvements()
+
+    def __repr__(self):
+        return self.nbrof_mouvements
 
